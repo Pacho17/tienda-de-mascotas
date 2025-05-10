@@ -1,84 +1,101 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const form = document.getElementById('petForm');
-    const petPhoto = document.getElementById('petPhoto');
-    const photoInput = document.getElementById('photo');
-    const petId = new URLSearchParams(window.location.search).get('id');
-    const API_URL = "http://192.168.18.165:3000";
+const API_URL = "http://192.168.18.165:3000";
 
-    // Función para obtener los encabezados de autenticación
-    const getAuthHeaders = () => {
-        const token = localStorage.getItem('token');
-        return token ? { 'Authorization': `Bearer ${token}` } : {};
-    };
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+  return token ? { "Authorization": `Bearer ${token}` } : {};
+}
 
-    // Cargar datos iniciales
-    if (petId) {
-        try {
-            const response = await fetch(`${API_URL}/petsfjbs/${petId}`, {
-                headers: getAuthHeaders()
-            });
-            const data = await response.json();
+function fillSelect(selectId, data, label = "name") {
+  const select = document.getElementById(selectId);
+  select.innerHTML = '<option value="">Seleccione...</option>';
+  data.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.id || item.identificacion;
+    option.textContent = item[label] || `Sin ${label}`;
+    select.appendChild(option);
+  });
+}
 
-            if (response.ok) {
-                document.getElementById('petId').value = data.id;
-                document.getElementById('name').value = data.name || 'Reigner';
-                document.getElementById('race').value = data.race?.name || 'Bulldog';
-                document.getElementById('category').value = data.category?.name || 'Perro';
-                document.getElementById('gender').value = data.gender?.name || 'Macho';
-                petPhoto.src = data.photo ? `${API_URL}/images/${data.photo}` : '';
-            } else {
-                alert('Error: ' + (data.msg || 'No se pudo cargar la mascota'));
-            }
-        } catch (error) {
-            console.error('Error al cargar datos:', error);
-            alert('Error de conexión con el servidor.');
-        }
+async function loadSelectData() {
+  const [races, categories, genders, users] = await Promise.all([
+    fetch(`${API_URL}/racefjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
+    fetch(`${API_URL}/categoryfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
+    fetch(`${API_URL}/genderfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
+    fetch(`${API_URL}/usersfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
+  ]);
+
+  fillSelect("race", races);
+  fillSelect("category", categories);
+  fillSelect("gender", genders);
+  fillSelect("User", users, "fullname");
+}
+
+async function loadPetData(petId) {
+  const response = await fetch(`${API_URL}/petsfjbs/${petId}`, { headers: getAuthHeaders() });
+  const pet = await response.json();
+
+  document.getElementById("name").value = pet.name;
+  document.getElementById("race").value = pet.race_id;
+  document.getElementById("category").value = pet.category_id;
+  document.getElementById("gender").value = pet.gender_id;
+  document.getElementById("User").value = pet.User_id;
+  document.getElementById("estado").value = pet.estado;
+}
+
+function getPetIdFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+function setupFormHandler(petId) {
+  const form = document.getElementById("petForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("race_id", document.getElementById("race").value);
+    formData.append("category_id", document.getElementById("category").value);
+    formData.append("gender_id", document.getElementById("gender").value);
+    formData.append("User_id", document.getElementById("User").value);
+    formData.append("estado", document.getElementById("estado").value);
+
+    const photoInput = document.getElementById("photo");
+    if (photoInput.files[0]) {
+      formData.append("photo", photoInput.files[0]);
     }
 
-    // Vista previa de la foto
-    photoInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                petPhoto.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    try {
+      const response = await fetch(`${API_URL}/petsfjbs/update/${petId}`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: formData
+      });
 
-    // Manejar envío del formulario
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || "Error al actualizar");
+      }
 
-        const formData = new FormData();
-        formData.append('id', petId);
-        formData.append('name', document.getElementById('name').value.trim());
-        formData.append('race_id', document.getElementById('race').value.trim());
-        formData.append('category_id', document.getElementById('category').value.trim());
-        formData.append('gender_id', document.getElementById('gender').value.trim());
-        if (photoInput.files[0]) {
-            formData.append('photo', photoInput.files[0]);
-        }
+      window.location.replace("mascotasInicio.html");
+    } catch (error) {
+      console.error("Error al actualizar mascota:", error);
+      alert(`Error: ${error.message}`);
+    }
+  });
+}
 
-        try {
-            const response = await fetch(`${API_URL}/petsfjbs/${petId}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: formData
-            });
+async function initializeApp() {
+  const petId = getPetIdFromURL();
+  if (!petId) {
+    alert("ID de mascota no especificado");
+    return;
+  }
 
-            const data = await response.json();
+  await loadSelectData();
+  await loadPetData(petId);
+  setupFormHandler(petId);
+}
 
-            if (response.ok) {
-                alert('Mascota actualizada con éxito');
-                window.location.href = 'mascotasInicio.html';
-            } else {
-                alert('Error: ' + (data.msg || 'Error al actualizar la mascota'));
-            }
-        } catch (error) {
-            console.error('Error al actualizar mascota:', error);
-            alert('Error de conexión con el servidor.');
-        }
-    });
-});
+document.addEventListener("DOMContentLoaded", initializeApp);

@@ -35,7 +35,7 @@ async function loadPets() {
           <a href="vermascota.html?id=${pet.id}">
             <img src="images/btn-show.svg" alt="Ver">
           </a>
-          <a href="frontend/editarmascotas.html?id=${pet.id}">
+          <a href="editarmascotas.html?id=${pet.id}">
             <img src="images/btn-edit.svg" alt="Editar">
           </a>
           <img class="btn-delete" src="images/btn-delete.svg" alt="Eliminar" data-id="${pet.id}">

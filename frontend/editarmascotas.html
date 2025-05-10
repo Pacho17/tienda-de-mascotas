@@ -18,33 +18,41 @@
 
   <form id="petForm">
     <input type="hidden" id="petId" name="petId">
+
     <div class="input-card">
       <input type="text" id="name" placeholder="Nombre de la mascota" required>
     </div>
+
     <div class="input-card">
-      <select id="race" required>
-        <option value="Bulldog">Bulldog</option>
-        <!-- Otras opciones dinámicas -->
-      </select>
+      <select id="race" required></select>
     </div>
+
     <div class="input-card">
-      <select id="category" required>
-        <option value="Perro">Perro</option>
-        <!-- Otras opciones dinámicas -->
-      </select>
+      <select id="category" required></select>
     </div>
+
     <div class="input-card">
       <input type="file" id="photo" accept="image/*">
     </div>
+
     <div class="input-card">
-      <select id="gender" required>
-        <option value="Macho">Macho</option>
-        <option value="Hembra">Hembra</option>
+      <select id="gender" required></select>
+    </div>
+
+    <div class="input-card">
+      <select id="User" required></select>
+    </div>
+
+    <div class="input-card">
+      <select id="estado" required>
+        <option value="Disponible">Disponible</option>
+        <option value="Adoptado">Adoptado</option>
       </select>
     </div>
+
     <button type="submit" class="submit-btn">Modificar</button>
   </form>
 
-  <script src="js/editarmascotas_fjbs.js"></script>
+  <script src="js/editarmascota_fjbs.js"></script>
 </body>
 </html>
