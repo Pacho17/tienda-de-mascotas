@@ -18,26 +18,31 @@
 
   <form id="petForm">
     <input type="hidden" id="petId" name="petId">
-    <input type="text" id="name" placeholder="Nombre de la mascota" value="Reigner" required>
-
-    <select id="race" required>
-      <option value="Bulldog" selected>Bulldog</option>
-      <!-- Otras opciones dinámicas -->
-    </select>
-
-    <select id="category" required>
-      <option value="Perro" selected>Perro</option>
-      <!-- Otras opciones dinámicas -->
-    </select>
-
-    <input type="file" id="photo" accept="image/*">
-
-    <select id="gender" required>
-      <option value="Macho" selected>Macho</option>
-      <option value="Hembra">Hembra</option>
-    </select>
-
-    <button type="submit">Modificar</button>
+    <div class="input-card">
+      <input type="text" id="name" placeholder="Nombre de la mascota" required>
+    </div>
+    <div class="input-card">
+      <select id="race" required>
+        <option value="Bulldog">Bulldog</option>
+        <!-- Otras opciones dinámicas -->
+      </select>
+    </div>
+    <div class="input-card">
+      <select id="category" required>
+        <option value="Perro">Perro</option>
+        <!-- Otras opciones dinámicas -->
+      </select>
+    </div>
+    <div class="input-card">
+      <input type="file" id="photo" accept="image/*">
+    </div>
+    <div class="input-card">
+      <select id="gender" required>
+        <option value="Macho">Macho</option>
+        <option value="Hembra">Hembra</option>
+      </select>
+    </div>
+    <button type="submit" class="submit-btn">Modificar</button>
   </form>
 
   <script src="js/editarmascotas_fjbs.js"></script>
