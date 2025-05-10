@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Mascota</title>
+  <link rel="stylesheet" href="css/editarmascotas.css">
+</head>
+<body>
+  <div class="header">
+    <a href="mascotasInicio.html">←</a>
+    <h1>Modificar Mascota</h1>
+    <a href="mascotasInicio.html">✕</a>
+  </div>
+
+  <div class="pet-photo">
+    <img id="petPhoto" src="" alt="Foto de la mascota">
+  </div>
+
+  <form id="petForm">
+    <input type="hidden" id="petId" name="petId">
+    <input type="text" id="name" placeholder="Nombre de la mascota" value="Reigner" required>
+
+    <select id="race" required>
+      <option value="Bulldog" selected>Bulldog</option>
+      <!-- Otras opciones dinámicas -->
+    </select>
+
+    <select id="category" required>
+      <option value="Perro" selected>Perro</option>
+      <!-- Otras opciones dinámicas -->
+    </select>
+
+    <input type="file" id="photo" accept="image/*">
+
+    <select id="gender" required>
+      <option value="Macho" selected>Macho</option>
+      <option value="Hembra">Hembra</option>
+    </select>
+
+    <button type="submit">Modificar</button>
+  </form>
+
+  <script src="js/editarmascotas_fjbs.js"></script>
+</body>
+</html>
