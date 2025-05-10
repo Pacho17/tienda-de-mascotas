@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @db.VarChar(32)
+  correo      String    @db.VarChar(32) @unique
+  contraseña  String    @db.VarChar(64)
+  mascota     Mascotas[]
+}
+
+model Mascotas {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @db.VarChar(32)
+  estado      Estado
+  razald      Int
+  categoriaId Int
+  foto        String    @db.VarChar(64)
+  generoId    Int
+  raza        Raza      @relation(fields: [razald], references: [id])
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  genero      Genero    @relation(fields: [generoId], references: [id])
+  usuarioId   Int
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+}
+
+model Raza {
+  id      Int       @id @default(autoincrement())
+  nombre  String    @db.VarChar(32)
+  mascota Mascotas[]
+}
+
+model Categoria {
+  id      Int       @id @default(autoincrement())
+  nombre  String    @db.VarChar(32)
+  mascota Mascotas[]
+}
+
+model Genero {
+  id      Int       @id @default(autoincrement())
+  nombre  String    @db.VarChar(32)
+  mascota Mascotas[]
+}
+
+enum Estado {
+  disponible
+  adoptado
+}
