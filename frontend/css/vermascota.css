@@ -79,3 +79,15 @@ body {
 .value {
   color: #E0E0E0;
 }
+
+.map-container {
+  flex-direction: column; /* Cambia a columna para que el mapa esté debajo de la etiqueta */
+  align-items: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+.map {
+  width: 100%;
+  height: 200px; /* Altura fija para el mapa */
+  border-radius: 10px;
+  overflow: hidden;
+}

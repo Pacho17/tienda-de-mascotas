@@ -12,12 +12,13 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-enum Rol{
+
+enum Rol {
   admin
   usuario
 }
 
-//modelo de usuarios
+// Modelo de usuarios
 model Users {
   identificacion BigInt  @id @unique
   fullname       String  @db.VarChar(32)
@@ -27,45 +28,47 @@ model Users {
   pets           Pets[]  
 }
 
-// modelo de razas
+// Modelo de razas
 model Races {
   id    Int     @id @default(autoincrement())
   name  String  @db.VarChar(32)
   pets  Pets[]  
 }
 
-// modelo de categorias
+// Modelo de categorías
 model categories {
   id    Int     @id @default(autoincrement())
   name  String  @db.VarChar(32)
   pets  Pets[]  
 }
 
-// modelo de genero
+// Modelo de género
 model Genders {
   id    Int     @id @default(autoincrement())
   name  String  @db.VarChar(32)
   pets  Pets[]  
 }
 
-enum Estado{
+enum Estado {
   Disponible
   Adoptado
 }
 
-// modelo de mascotas
+// Modelo de mascotas
 model Pets {
   id           Int     @id @default(autoincrement())
   race_id      Int
   category_id  Int
-  gender_id   Int
-  User_id     BigInt
+  gender_id    Int
+  User_id      BigInt
   name         String  @db.VarChar(30)
   photo        String  @db.VarChar(255)
   estado       Estado  @default(Disponible)
-  //relaciones de los modelos 
-  user         Users     @relation(fields: [User_id], references: [identificacion])
-  race         Races     @relation(fields: [race_id], references: [id])
+  latitude     Float?  // Campo para latitud (opcional)
+  longitude    Float?  // Campo para longitud (opcional)
+  // Relaciones de los modelos 
+  user         Users      @relation(fields: [User_id], references: [identificacion])
+  race         Races      @relation(fields: [race_id], references: [id])
   category     categories @relation(fields: [category_id], references: [id])
-  gender       Genders   @relation(fields: [gender_id], references: [id])
+  gender       Genders    @relation(fields: [gender_id], references: [id])
 }

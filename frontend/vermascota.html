@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Consultar Mascota</title>
   <link rel="stylesheet" href="css/vermascota.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <div class="header">
@@ -33,8 +34,17 @@
       <span class="label">Género:</span>
       <span id="petGender" class="value"></span>
     </div>
+    <div class="detail-item">
+      <span class="label">Estado:</span>
+      <span id="petEstado" class="value"></span>
+    </div>
+    <div class="detail-item map-container">
+      <span class="label">Ubicación:</span>
+      <div id="map" class="map"></div>
+    </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/vermascota_fjbs.js"></script>
 </body>
 </html>

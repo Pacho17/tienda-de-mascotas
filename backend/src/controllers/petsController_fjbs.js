@@ -16,11 +16,18 @@ function serializePet(pet) {
 
 export const createPetfjbs = async (req, res) => {
     try {
-        const { race_id, category_id, gender_id, User_id, name, estado } = req.body;
+        const { race_id, category_id, gender_id, User_id, name, estado, latitude, longitude } = req.body;
 
         // Validación de los campos
         if (isNaN(race_id) || isNaN(category_id) || isNaN(gender_id) || isNaN(User_id)) {
             return res.status(400).json({ msg: "Valores de ID inválidos" });
+        }
+
+        // Validar latitud y longitud (si se proporcionan)
+        if (latitude && longitude) {
+            if (isNaN(latitude) || isNaN(longitude)) {
+                return res.status(400).json({ msg: "Latitud o longitud inválidas" });
+            }
         }
 
         // Verifica si el archivo está presente
@@ -36,6 +43,8 @@ export const createPetfjbs = async (req, res) => {
                 name,
                 photo,
                 estado,
+                latitude: latitude ? parseFloat(latitude) : null,
+                longitude: longitude ? parseFloat(longitude) : null,
             },
             include: {
                 race: true,
@@ -110,8 +119,15 @@ export const getPetByIdfjbs = async (req, res) => {
 export const updatePetfjbs = async (req, res) => {
     try {
         const { id } = req.params;
-        const { race_id, category_id, gender_id, User_id, name, photo, estado } = req.body;
+        const { race_id, category_id, gender_id, User_id, name, photo, estado, latitude, longitude } = req.body;
         
+        // Validar latitud y longitud (si se proporcionan)
+        if (latitude && longitude) {
+            if (isNaN(latitude) || isNaN(longitude)) {
+                return res.status(400).json({ msg: "Latitud o longitud inválidas" });
+            }
+        }
+
         const pet = await prisma.pets.update({
             where: { id: Number(id) },
             data: {
@@ -122,6 +138,8 @@ export const updatePetfjbs = async (req, res) => {
                 name,
                 photo: req.file ? req.file.filename : photo,
                 estado,
+                latitude: latitude ? parseFloat(latitude) : null,
+                longitude: longitude ? parseFloat(longitude) : null,
             },
             include: {
                 race: true,

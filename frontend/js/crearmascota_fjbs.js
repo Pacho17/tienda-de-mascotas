@@ -8,7 +8,7 @@ function getAuthHeaders() {
     return {};
   }
   return {
-    "Authorization": `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
 }
 
@@ -27,7 +27,7 @@ function fillSelect(selectId, data, label = "name") {
     return;
   }
 
-  data.forEach(item => {
+  data.forEach((item) => {
     const option = document.createElement("option");
     option.value = item.id || item.identificacion;
     option.textContent = item[label] || `Sin ${label}`;
@@ -39,21 +39,43 @@ function fillSelect(selectId, data, label = "name") {
 async function loadSelectData() {
   try {
     const [races, categories, genders, users] = await Promise.all([
-      fetch(`${API_URL}/racefjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
-      fetch(`${API_URL}/categoryfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
-      fetch(`${API_URL}/genderfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
-      fetch(`${API_URL}/usersfjbs`, { headers: getAuthHeaders() }).then(res => res.json()),
+      fetch(`${API_URL}/racefjbs`, { headers: getAuthHeaders() }).then((res) => res.json()),
+      fetch(`${API_URL}/categoryfjbs`, { headers: getAuthHeaders() }).then((res) => res.json()),
+      fetch(`${API_URL}/genderfjbs`, { headers: getAuthHeaders() }).then((res) => res.json()),
+      fetch(`${API_URL}/usersfjbs`, { headers: getAuthHeaders() }).then((res) => res.json()),
     ]);
 
     fillSelect("race", races);
     fillSelect("category", categories);
     fillSelect("gender", genders);
     fillSelect("User", users, "fullname");
-
   } catch (error) {
     console.error("Error al cargar datos de los selects:", error);
     alert("Error al cargar datos iniciales");
   }
+}
+
+// Obtener ubicación actual del usuario
+function setupGeolocation() {
+  const getLocationBtn = document.getElementById("getLocation");
+  if (!getLocationBtn) return;
+
+  getLocationBtn.addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          document.getElementById("latitude").value = position.coords.latitude;
+          document.getElementById("longitude").value = position.coords.longitude;
+        },
+        (error) => {
+          console.error("Error al obtener la ubicación:", error);
+          alert("No se pudo obtener la ubicación. Por favor, ingrese las coordenadas manualmente.");
+        }
+      );
+    } else {
+      alert("La geolocalización no es compatible con este navegador.");
+    }
+  });
 }
 
 // Registrar mascota
@@ -74,7 +96,9 @@ function setupFormHandler() {
       gender: document.getElementById("gender"),
       User: document.getElementById("User"),
       estado: document.getElementById("estado"),
-      photo: document.getElementById("photo")
+      photo: document.getElementById("photo"),
+      latitude: document.getElementById("latitude"),
+      longitude: document.getElementById("longitude"),
     };
 
     for (const [field, element] of Object.entries(elements)) {
@@ -90,22 +114,23 @@ function setupFormHandler() {
     }
 
     const formData = new FormData();
-    formData.append('name', elements.name.value);
-    formData.append('race_id', elements.race.value);
-    formData.append('category_id', elements.category.value);
-    formData.append('gender_id', elements.gender.value);
-    formData.append('User_id', elements.User.value);
-    formData.append('estado', elements.estado.value);
-
+    formData.append("name", elements.name.value);
+    formData.append("race_id", elements.race.value);
+    formData.append("category_id", elements.category.value);
+    formData.append("gender_id", elements.gender.value);
+    formData.append("User_id", elements.User.value);
+    formData.append("estado", elements.estado.value);
+    if (elements.latitude.value) formData.append("latitude", elements.latitude.value);
+    if (elements.longitude.value) formData.append("longitude", elements.longitude.value);
     if (elements.photo.files[0]) {
-      formData.append('photo', elements.photo.files[0]);
+      formData.append("photo", elements.photo.files[0]);
     }
 
     try {
       const response = await fetch(`${API_URL}/petsfjbs`, {
         method: "POST",
         headers: getAuthHeaders(),
-        body: formData
+        body: formData,
       });
 
       if (!response.ok) {
@@ -128,6 +153,7 @@ function initializeApp() {
   try {
     loadSelectData(); // Cargar datos para los selects
     setupFormHandler(); // Configurar el formulario
+    setupGeolocation(); // Configurar la geolocalización
   } catch (error) {
     console.error("Error al inicializar la aplicación:", error);
     alert("Error al cargar la aplicación");
