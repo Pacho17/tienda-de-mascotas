@@ -28,7 +28,7 @@ async function loadPets() {
           <img class="pet-photo" src="${pet.photo ? `${API_URL}/images/${pet.photo}` : 'images/default-pet.png'}" alt="Foto">
           <div>
             <h1 class="pet-name">${pet.name || 'Sin nombre'}</h1>
-            <p class="pet-race">${pet.race?.name || 'Sin raza'}</p>
+            <p class="pet-rate">${pet.race?.name || 'Sin raza'}</p>
           </div>
         </div>
         <div class="pet-actions">
@@ -46,6 +46,7 @@ async function loadPets() {
     });
 
     setupDeleteButtons();
+    setupReportButton(); // Configurar el botón de reporte
   } catch (error) {
     console.error("Error al cargar mascotas:", error);
     const container = document.getElementById("petList");
@@ -74,6 +75,44 @@ function setupDeleteButtons() {
         alert(`Error al eliminar mascota: ${error.message}`);
       }
     });
+  });
+}
+
+function setupReportButton() {
+  const reportButton = document.getElementById("generateReportBtn");
+  if (!reportButton) {
+    console.error("Botón de generar reporte no encontrado");
+    return;
+  }
+
+  reportButton.addEventListener("click", async () => {
+    try {
+      const response = await fetch(`${API_URL}/generar-reporte-mascotas`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al generar el reporte");
+      }
+
+      // Descargar el PDF
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "reporte_mascotas.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      alert("Reporte generado exitosamente");
+    } catch (error) {
+      console.error("Error al generar el reporte:", error);
+      alert(`Error: ${error.message}`);
+    }
   });
 }
 

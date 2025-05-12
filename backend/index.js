@@ -35,6 +35,6 @@ app.use(raceRouterfjbs);
 
 // Iniciar servidor
 app.listen(3000, '0.0.0.0', () => {
-    console.log(`Servidor de PACHO iniciado en http://192.168.101.7:3000`);
-    console.log(`Documentación de PACHO en http://192.168.101.7:3000/docs`);
+    console.log(`Servidor de PACHO iniciado en http://192.168.18.165:3000`);
+
 });
