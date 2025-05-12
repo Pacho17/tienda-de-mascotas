@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const petId = new URLSearchParams(window.location.search).get('id');
-    const API_URL = "http://192.168.18.165:3000";
+    const API_URL = "http://10.4.20.57:3000";
 
     // Función para obtener los encabezados de autenticación
     const getAuthHeaders = () => {

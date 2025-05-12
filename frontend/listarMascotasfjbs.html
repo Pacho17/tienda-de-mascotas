@@ -9,7 +9,6 @@
 <body>
   <div class="header">
     <h1 class="title">Administrar Mascotas</h1>
-    <button id="generateReportBtn" class="report-btn">Generar Reporte PDF</button>
     <a href="index.html" class="close"><img src="images/btn-close.svg" alt="Cerrar"></a>
   </div>
 
@@ -24,7 +23,7 @@
   <script>
     // Función para cargar la lista de mascotas con opción de edición
     async function loadPets() {
-      const API_URL = "http://192.168.18.165:3000";
+      const API_URL = "http://10.4.20.57:3000";
       try {
         const response = await fetch(`${API_URL}/petsfjbs`);
         if (!response.ok) throw new Error('Error en la respuesta del servidor');
