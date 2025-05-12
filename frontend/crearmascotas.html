@@ -2,28 +2,82 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Mascotas</title>
   <link rel="stylesheet" href="css/crearmascotas.css">
 </head>
 <body>
-  <h1>Adicionar Mascotas</h1>
+
+  <!-- CABECERA CON BOTONES -->
+  <div class="header">
+    <a href="listarMascotasfjbs.html" class="back-btn">←</a>
+    <h1>Adicionar Mascota</h1>
+    <a href="listarMascotasfjbs.html" class="close-btn">×</a>
+  </div>
+
+  <!-- FOTO CIRCULAR VACÍA -->
+  <div class="pet-photo">
+    <img id="petImage" src="" alt="Foto de la mascota" style="display: none;">
+  </div>
 
   <form id="petForm">
-    <input type="text" id="name" placeholder="Nombre de la mascota" required><br>
-    
-    <select id="race" required></select>
-    <select id="category" required></select>
-    <select id="gender" required></select>
-    <select id="User" required></select>
+    <label for="name">Nombre de la mascota</label>
+    <div class="input-card">
+      <input type="text" id="name" placeholder="Nombre de la mascota" required>
+    </div>
 
-    <input type="file" id="photo" placeholder="URL de la foto"><br>
-    <select id="estado" required>
-      <option value="Disponible">Disponible</option>
-      <option value="Adoptado">Adoptado</option>
-    </select><br>
+    <label for="race">Raza</label>
+    <div class="input-card">
+      <select id="race" required>
+        <option value="">Seleccione una raza</option>
+        <option value="Labrador">Labrador</option>
+        <option value="Pastor Alemán">Pastor Alemán</option>
+        <option value="Bulldog">Bulldog</option>
+      </select>
+    </div>
 
-    <button type="submit">Registrar Mascota</button>
+    <label for="category">Categoría</label>
+    <div class="input-card">
+      <select id="category" required>
+        <option value="">Seleccione una categoría</option>
+        <option value="Perro">Perro</option>
+        <option value="Gato">Gato</option>
+        <option value="Ave">Ave</option>
+      </select>
+    </div>
+
+    <label for="gender">Género</label>
+    <div class="input-card">
+      <select id="gender" required>
+        <option value="">Seleccione el género</option>
+        <option value="Macho">Macho</option>
+        <option value="Hembra">Hembra</option>
+      </select>
+    </div>
+
+    <label for="User">Usuario</label>
+    <div class="input-card">
+      <select id="User" required>
+        <option value="">Seleccione un usuario</option>
+      </select>
+    </div>
+
+    <label for="photo">Foto de la mascota</label>
+    <div class="input-card">
+      <input type="file" id="photo" accept="image/*" required>
+    </div>
+
+    <label for="estado">Estado</label>
+    <div class="input-card">
+      <select id="estado" required>
+        <option value="Disponible">Disponible</option>
+        <option value="Adoptado">Adoptado</option>
+      </select>
+    </div>
+
+    <button type="submit" class="submit-btn">Registrar Mascota</button>
   </form>
+  
   <script src="js/crearmascota_fjbs.js"></script>
 </body>
 </html>

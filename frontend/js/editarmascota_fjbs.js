@@ -78,7 +78,7 @@ function setupFormHandler(petId) {
         throw new Error(errorData.msg || "Error al actualizar");
       }
 
-      window.location.replace("mascotasInicio.html");
+      window.location.replace("listarMascotasfjbs.html");
     } catch (error) {
       console.error("Error al actualizar mascota:", error);
       alert(`Error: ${error.message}`);

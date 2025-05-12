@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                window.location.href = 'mascotasInicio.html'; 
+                window.location.href = 'listarMascotasfjbs.html'; 
             } else {
                 alert('Error: ' + data.msg);
             }

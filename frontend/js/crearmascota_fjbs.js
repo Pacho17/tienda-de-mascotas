@@ -114,7 +114,7 @@ function setupFormHandler() {
         throw new Error(errorData.message || "Error en el servidor");
       }
 
-      window.location.href = "listarmascotasfjbs.html";
+      window.location.href = "listarMascotasfjbs.html";
       form.reset();
     } catch (error) {
       console.error("Error al registrar mascota:", error);
