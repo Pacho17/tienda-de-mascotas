@@ -97,3 +97,24 @@ body {
 .report-button:hover {
     background-color: #2a3550;
 }
+
+/* Estilos para el botón "Ver en Mapa" con texto */
+.map-btn {
+    background-color: #3b4a69;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-btn:hover {
+    background-color: #2a3550;
+}

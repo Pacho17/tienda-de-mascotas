@@ -1,4 +1,4 @@
-const API_URL = "http://10.4.20.57:3000";
+const API_URL = "http://192.168.0.107:3000";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
@@ -100,7 +100,7 @@ function setupReportButton() {
       // Descargar el PDF
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");j
+      const a = document.createElement("a");
       a.href = url;
       a.download = "reporte_mascotas.pdf";
       document.body.appendChild(a);
