@@ -36,7 +36,7 @@ async function loadReports() {
     // Crear la gráfica
     const ctx = document.getElementById("statsChart").getContext("2d");
     new Chart(ctx, {
-      type: "bar",
+      type: "doughnut",
       data: {
         labels: ["Disponible", "Adoptado"],
         datasets: [{

@@ -79,10 +79,11 @@ const downloadReport = async (req, res) => {
     doc.fontSize(16).text('Estadísticas de Mascotas por Estado', { align: 'center' });
     doc.moveDown();
 
-    const canvas = createCanvas(500, 300);
+    // Ajustar el tamaño del lienzo y desactivar el ajuste automático
+    const canvas = createCanvas(150, 150);
     const ctx = canvas.getContext('2d');
     new Chart(ctx, {
-      type: 'bar',
+      type: 'doughnut',
       data: {
         labels: ['Disponible', 'Adoptado'],
         datasets: [{
@@ -92,14 +93,13 @@ const downloadReport = async (req, res) => {
         }],
       },
       options: {
-        scales: {
-          y: { beginAtZero: true },
-        },
+        responsive: false,
+        maintainAspectRatio: false,
       },
     });
 
     const chartImage = canvas.toBuffer('image/png');
-    doc.image(chartImage, 50, 150, { width: 500 });
+    doc.image(chartImage, 50, 150, { width: 100, height: 100 });
 
     doc.end();
   } catch (error) {
