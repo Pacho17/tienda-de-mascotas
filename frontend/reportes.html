@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes y Gráficas de Mascotas</title>
+  <link rel="stylesheet" href="css/reportes.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/reportes_fjbs.js" defer></script>
+</head>
+<body>
+  <div class="header">
+    <a href="listarmascotasfjbs.html" class="back-btn">Volver</a>
+    <h1 class="title">Reportes y Gráficas de Mascotas</h1>
+    <a href="listarmascotasfjbs.html" class="close"><img src="images/btn-close.svg" alt="Cerrar"></a>
+  </div>
+
+  <div class="content">
+    <button id="downloadReportBtn" class="report-btn">Descargar Reporte en PDF</button>
+    <h2>Datos de Mascotas</h2>
+    <div class="table-container">
+      <table id="reportTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Raza</th>
+            <th>Categoría</th>
+            <th>Género</th>
+            <th>Estado</th>
+            <th>Propietario</th>
+          </tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+    <h2>Gráfica: Mascotas por Estado</h2>
+    <div class="chart-container">
+      <canvas id="statsChart"></canvas>
+    </div>
+  </div>
+</body>
+</html>

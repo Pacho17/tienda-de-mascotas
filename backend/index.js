@@ -10,6 +10,7 @@ import { genderRouterfjbs } from './src/routers/gendersRouter_fjbs.js';
 import { categoryRouterfjbs } from './src/routers/categoryRouter_fjbs.js';
 import { petRouterfjbs } from './src/routers/petsRouter_fjbs.js';
 import { raceRouterfjbs } from './src/routers/raceRouter_fjbs.js';
+import { reporteRouterfjbs } from './src/routers/reporteRouter_fjbs.js';
 
 dotenv.config();
 const app = express();
@@ -32,9 +33,9 @@ app.use(genderRouterfjbs);
 app.use(categoryRouterfjbs);
 app.use(petRouterfjbs);
 app.use(raceRouterfjbs);
+app.use(reporteRouterfjbs);
 
 // Iniciar servidor
 app.listen(3000, '0.0.0.0', () => {
-    console.log(`Servidor de PACHO iniciado en http:// 10.4.20.57:3000`);
-
+    console.log(`Servidor de PACHO iniciado en http://192.168.18.165:3000`);
 });

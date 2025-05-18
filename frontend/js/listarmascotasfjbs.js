@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.0.107:3000";
+const API_URL = "http://192.168.18.165:3000";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
@@ -46,7 +46,6 @@ async function loadPets() {
     });
 
     setupDeleteButtons();
-    setupReportButton(); // Configurar el botón de reporte
   } catch (error) {
     console.error("Error al cargar mascotas:", error);
     const container = document.getElementById("petList");
@@ -69,50 +68,12 @@ function setupDeleteButtons() {
         if (!response.ok) throw new Error(`Error al eliminar mascota: ${response.statusText}`);
 
         alert("Mascota eliminada correctamente");
-        loadPets(); // Recargar la lista
+        loadPets();
       } catch (error) {
         console.error("Error al eliminar mascota:", error);
         alert(`Error al eliminar mascota: ${error.message}`);
       }
     });
-  });
-}
-
-function setupReportButton() {
-  const reportButton = document.getElementById("generateReportBtn");
-  if (!reportButton) {
-    console.error("Botón de generar reporte no encontrado");
-    return;
-  }
-
-  reportButton.addEventListener("click", async () => {
-    try {
-      const response = await fetch(`${API_URL}/generar-reporte-mascotas`, {
-        method: "GET",
-        headers: getAuthHeaders(),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al generar el reporte");
-      }
-
-      // Descargar el PDF
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "reporte_mascotas.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-
-      alert("Reporte generado exitosamente");
-    } catch (error) {
-      console.error("Error al generar el reporte:", error);
-      alert(`Error: ${error.message}`);
-    }
   });
 }
 

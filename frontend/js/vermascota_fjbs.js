@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const petId = new URLSearchParams(window.location.search).get('id');
-    const API_URL = "http://192.168.0.107:3000";
+    const API_URL = "http://192.168.18.165:3000";
 
     // Función para obtener los encabezados de autenticación
     const getAuthHeaders = () => {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('petGender').textContent = data.gender?.name || 'Sin género';
             document.getElementById('petEstado').textContent = data.estado || 'Sin estado';
 
-            // Inicializar el mapa si hay coordenadas
+            //Aqui se inicia o se muestra el mapa si se registro alguna coordenada en el registro de la mascota si no, no aparece
             const mapContainer = document.getElementById('map');
             if (data.latitude && data.longitude) {
                 const map = L.map(mapContainer).setView([data.latitude, data.longitude], 13);

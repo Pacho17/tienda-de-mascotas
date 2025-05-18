@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.0.107:3000";
+const API_URL = "http://192.168.18.165:3000";
 
 // Función para obtener encabezados con token
 function getAuthHeaders() {
@@ -12,7 +12,7 @@ function getAuthHeaders() {
   };
 }
 
-// Función para cargar las mascotas y mostrarlas en el mapa
+// Con esta funcion se muestran los datos o la informacion de las mascotas
 async function loadPetsMap() {
   try {
     const response = await fetch(`${API_URL}/petsfjbs`, { headers: getAuthHeaders() });
@@ -21,8 +21,8 @@ async function loadPetsMap() {
     }
     const pets = await response.json();
 
-    // Inicializar el mapa (centrado en una ubicación por defecto, ej. Bogotá)
-    const map = L.map("map").setView([4.60971, -74.08175], 10); // Ajusta las coordenadas y zoom según tu región
+    // Inicializar el mapa (centrado en una ubicación por defecto, Bogota)
+    const map = L.map("map").setView([4.60971, -74.08175], 10);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
